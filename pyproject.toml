@@ -1,0 +1,88 @@
+[project]
+name = "typos-gitlab-code-quality"
+dynamic = ["version"]
+description = "Generate GitLab Code Quality report from typos output"
+readme = "README.md"
+authors = [{ name = "Thibaud Gambier", email = "thibaud.gambier@gmail.com" }]
+requires-python = ">=3.9"
+keywords = ["gitlab", "gitlab-ci", "typos", "codequality"]
+license-files = ["LICENSE"]
+license = "MIT"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+]
+dependencies = []
+
+[project.urls]
+Repository = "https://github.com/tahv/typos-gitlab-code-quality"
+
+[project.scripts]
+typos-gitlab-code-quality = "typos_gitlab_code_quality:main"
+
+[build-system]
+requires = ["setuptools>=61", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = ["coverage>=7.10.7", "mypy>=1.19.0", "pytest>=8.4.2"]
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
+
+[tool.uv]
+default-groups = ["dev"]
+
+[tool.mypy]
+files = ["src"]
+disallow_untyped_defs = true
+check_untyped_defs = true
+disallow_any_unimported = true
+no_implicit_optional = true
+warn_return_any = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+show_error_codes = true
+
+[tool.typos]
+files.extend-exclude = ["tests/**/test_*.py"]
+
+[tool.coverage]
+run.source_dirs = ["src"]
+run.branch = true
+paths.src = ["src", "*/src", "*\\src"]
+report.show_missing = true
+report.skip_covered = true
+report.skip_empty = true
+report.exclude_lines = [
+  "# pragma: no cover",
+  "if (False|0|TYPE_CHECKING):",
+  "if __name__ == ['\"]__main__['\"]:",
+]
+
+
+[tool.ruff]
+src = ["src"]
+include = ["src/**/*.py", "tests/**/*.py", "**/pyproject.toml"]
+
+[tool.ruff.lint]
+flake8-tidy-imports.ban-relative-imports = "all"
+isort.required-imports = ["from __future__ import annotations"]
+pydocstyle.convention = "google"
+select = ["ALL"]
+ignore = [
+  "D100",   # Missing docstring in public module
+  "D101",   # Missing docstring in public class
+  "D103",   # Missing docstring in public function
+  "D104",   # Missing docstring in public package
+  "FIX002", # Line contains TODO, consider resolving the issue
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/test_*.py" = [
+  "D103",   # Missing docstring in public function
+  "INP001", # File is part of an implicit namespace package. Add an `__init__.py`
+  "S101",   # Use of assert detected
+]
