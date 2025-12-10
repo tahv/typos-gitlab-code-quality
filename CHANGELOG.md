@@ -9,3 +9,7 @@ Changes for the upcoming release can be found
 in the [`changelog.d` directory](changelog.d) of the repository.
 
 <!-- towncrier release notes start -->
+
+## [1.0.0](https://github.com/tahv/typos-gitlab-code-quality/releases/tag/1.0.0) - 2025-12-10
+
+Initial release.
