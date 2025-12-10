@@ -29,3 +29,25 @@ jobs:
         with:
           version: "latest"
           args: "format --check --diff"
+
+  tests:
+    name: Test on ${{ matrix.python-version }}
+    strategy:
+      matrix:
+        python-version: ["3.14"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "${{ matrix.python-version }}"
+      - uses: astral-sh/setup-uv@v7
+      - name: Run tests
+        run: uv run -m coverage run --parallel -m pytest
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data-${{ matrix.python-version }}
+          path: .coverage.*
+          include-hidden-files: true
+          if-no-files-found: ignore
