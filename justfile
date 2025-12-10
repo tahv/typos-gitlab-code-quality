@@ -1,3 +1,6 @@
+GITHUB_SERVER_URL := env("GITHUB_SERVER_URL", "https://github.com")
+GITHUB_REPOSITORY := env("GITHUB_REPOSITORY", "tahv/typos-gitlab-code-quality")
+
 # List available recipes
 [default, private]
 list:
@@ -37,3 +40,17 @@ coverage *args:
   uv run -m coverage run --parallel -m pytest {{args}}
   uv run -m coverage combine
   uv run -m coverage report
+
+# Create a news fragment
+news filename="":
+  uvx towncrier create --no-edit {{ filename }}
+
+# Build changelog from news fragments, or print a draft if `version` is not set
+changelog version="":
+  uvx towncrier build {{ if version == "" { "--draft --version 0.0.0" } else { "--version " + version } }}
+
+# Output `version` release notes from CHANGELOG.md
+release-notes version:
+  @uv run scripts/release-notes.py \
+    --version "{{ version }}" \
+    --diff-url "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/compare/{old}...{new}"

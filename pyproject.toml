@@ -46,6 +46,27 @@ warn_unused_ignores = true
 warn_redundant_casts = true
 show_error_codes = true
 
+[tool.towncrier]
+directory = "changelog.d"
+filename = "CHANGELOG.md"
+title_format = "## [{version}](https://github.com/tahv/typos-gitlab-code-quality/releases/tag/{version}) - {project_date}"
+start_string = "<!-- towncrier release notes start -->\n"
+issue_format = "[#{issue}](https://github.com/tahv/typos-gitlab-code-quality/issues/{issue})"
+type = [
+  # When something public gets removed in a breaking way.
+  { name = "Breaking changes", directory = "break", showcontent = true },
+  # New behaviors, new public APIs, new behavior in existing features.
+  { name = "Enhancements", directory = "feat", showcontent = true },
+  # Undesired behavior that got fixed.
+  { name = "Bug fixes", directory = "fix", showcontent = true },
+  # Notable updates to the documentation.
+  { name = "Documentation", directory = "doc", showcontent = true },
+  # Internal changes that rewrite/restructure code without changing the API.
+  { name = "Refactor", directory = "refactor", showcontent = true },
+  # Changes that does not affect production code, e.g., modifying gitignore.
+  { name = "Miscellaneous changes", directory = "chore", showcontent = true },
+]
+
 [tool.typos]
 files.extend-exclude = ["tests/**/test_*.py"]
 
@@ -61,7 +82,6 @@ report.exclude_lines = [
   "if (False|0|TYPE_CHECKING):",
   "if __name__ == ['\"]__main__['\"]:",
 ]
-
 
 [tool.ruff]
 src = ["src"]
