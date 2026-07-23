@@ -6,7 +6,9 @@ import hashlib
 import json
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal, NotRequired, TypedDict, cast
+from typing import TYPE_CHECKING, Literal, TypedDict, cast
+
+from typing_extensions import NotRequired
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence

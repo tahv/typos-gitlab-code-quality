@@ -14,7 +14,9 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
 ]
-dependencies = []
+dependencies = [
+  "typing-extensions>=4.15.0",
+]
 
 [project.urls]
 Repository = "https://github.com/tahv/typos-gitlab-code-quality"
